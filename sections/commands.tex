@@ -1,0 +1,464 @@
+% ============================================================
+% CUSTOM COMMANDS FOR FLEXIBLE DAMAGE FUNCTIONS REPORT
+% ============================================================
+
+% ============================================================
+% UNICODE SAFETY
+% ============================================================
+\DeclareUnicodeCharacter{2212}{-}
+\DeclareUnicodeCharacter{2013}{--}
+\DeclareUnicodeCharacter{2014}{---}
+\DeclareUnicodeCharacter{00A0}{~}
+\DeclareUnicodeCharacter{0394}{$\Delta$}
+
+% ============================================================
+% HELPER: TRUNCATE TEXT
+% ============================================================
+\usepackage{xstring}
+\newcommand{\trunc}[2][7]{\StrLeft{#2}{#1}}
+
+% ============================================================
+% DIAGNOSTICS PAGE 1: Parameter Distributions
+% ============================================================
+% Layout: 
+%   Row 1: param_distributions.png (large, centered)
+%   Row 2: polynomial_summary.png (left), predicted_vs_reported.png (right)
+% Usage: \diagnosticsPageOne{CropName}{folder}
+
+\newcommand{\diagnosticsPageOne}[2]{%
+    \subsubsection*{Diagnostics: Parameter Distributions and Model Fit}
+    
+    % Row 1: Large centered figure
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.65\textwidth]{#2/diagnostics/param_distributions.png}
+        \caption{#1: Distribution of fitted parameters ($\alpha_i$, $\beta_i$) across impact regions.}
+        \label{fig:#2_param_dist}
+    \end{figure}
+    
+    % Row 2: Two-column layout
+    \begin{figure}[H]
+        \centering
+        \begin{subfigure}[t]{0.48\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{#2/diagnostics/polynomial_summary.png}
+            \caption{Summary of quadratic damage functions}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[t]{0.48\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{#2/diagnostics/predicted_vs_reported.png}
+            \caption{Predicted vs.\ reported values}
+        \end{subfigure}
+        \caption{#1: Polynomial summary and model validation}
+        \label{fig:#2_poly_pred}
+    \end{figure}
+    
+    \FloatBarrier
+}
+
+% ============================================================
+% DIAGNOSTICS PAGE 2: Slope Analysis and Questions
+% ============================================================
+% Layout:
+%   Row 1: maxslope_hist.png, tempcrossing_0.png
+%   Row 2: Manual questions/prompts
+% Usage: \diagnosticsPageTwo{CropName}{folder}
+
+\newcommand{\diagnosticsPageTwo}[2]{%
+    \clearpage
+    \subsubsection*{Diagnostics: Slope Analysis}
+    
+    % Row 1: Two figures
+    \begin{figure}[H]
+        \centering
+        \begin{subfigure}[t]{0.48\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{#2/diagnostics/maxslope_hist.png}
+            \caption{Maximum slope distribution}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[t]{0.48\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{#2/diagnostics/tempcrossing_0.png}
+            \caption{Temperature crossing zero analysis}
+        \end{subfigure}
+        \caption{#1: Slope characteristics across impact regions}
+        \label{fig:#2_slopes}
+    \end{figure}
+    
+    % Row 2: Questions for manual completion
+    \vspace{5mm}
+    \noindent\textbf{Analysis Questions} \textit{(to be completed manually)}
+    
+    \vspace{3mm}
+    \noindent\fbox{\parbox{0.97\textwidth}{
+        \textbf{Crossing 0 at:} $T = -\alpha / \beta$
+        \begin{itemize}
+            \item $\beta = 0$ (no crossing): \underline{\hspace{2cm}}\%
+            \item $T > 20$ (beyond graph): \underline{\hspace{2cm}}\%
+            \item $T < 0$ (never crossing): \underline{\hspace{2cm}}\%
+        \end{itemize}
+        
+        \vspace{2mm}
+        \textbf{How extreme are the slopes between 0 and 10\,°C?}\\
+        Slope: $\alpha + 2\beta T$ (maximum at 0 or 10)
+        
+        \vspace{3mm}
+        \textbf{When is a concave polynomial estimated (and then clipped to linear)?}
+        \begin{itemize}
+            \item $\beta > 0$ (convex response): \underline{\hspace{2cm}}\%
+        \end{itemize}
+        
+        \vspace{2mm}
+        \textbf{Where are these located?}\\[2mm]
+        \textit{[Insert table or list of regions here]}
+        \vspace{10mm}
+    }}
+    
+    \FloatBarrier
+}
+
+% ============================================================
+% DIAGNOSTICS PAGE 3: Worst Performance IR
+% ============================================================
+% Layout:
+%   Row 1: worst_offenders_by_error.png
+%   Row 2: worst_offenders_detail.png
+% Usage: \diagnosticsPageThree{CropName}{folder}
+
+\newcommand{\diagnosticsPageThree}[2]{%
+    \clearpage
+    \subsubsection*{Worst Performance IR}
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.85\textwidth]{#2/diagnostics/worst_offenders_by_error.png}
+        \caption{#1: Impact regions with largest fitting errors}
+        \label{fig:#2_worst_error}
+    \end{figure}
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.85\textwidth]{#2/diagnostics/worst_offenders_detail.png}
+        \caption{#1: Detailed analysis of worst-performing impact regions}
+        \label{fig:#2_worst_detail}
+    \end{figure}
+    
+    \FloatBarrier
+}
+
+% ============================================================
+% COMPLETE DIAGNOSTICS PANEL
+% ============================================================
+% Combines all three diagnostic pages
+% Usage: \diagnosticpanel{CropName}{folder}
+
+\newcommand{\diagnosticpanel}[2]{%
+    \diagnosticsPageOne{#1}{#2}
+    \diagnosticsPageTwo{#1}{#2}
+    \diagnosticsPageThree{#1}{#2}
+}
+
+% ============================================================
+% SUMMARY PLACEHOLDER PAGE
+% ============================================================
+% One-page summary with Lorem Ipsum placeholder
+% Usage: \summaryplaceholder{CropName}
+
+\newcommand{\summaryplaceholder}[1]{%
+    \subsubsection*{Summary Statistics}
+    
+    \noindent\textit{Results presented at the Impact Region (IR) level.}
+    
+    \vspace{3mm}
+    \noindent\textbf{Summary by Scenario}
+    
+    \lipsum[1]
+    
+    \vspace{3mm}
+    \noindent\textbf{Aggregated Metrics}
+    
+    \lipsum[2]
+    
+    \vspace{3mm}
+    \noindent\textbf{Scenario Comparisons}
+    
+    \lipsum[3]
+    
+    \FloatBarrier
+}
+
+% ============================================================
+% SCENARIO PAGE: 3x2 Grid Layout
+% ============================================================
+% Layout:
+%   Row 1: raw map, flex map, diff map
+%   Row 2: raw table, flex table, diff table
+% Usage: \scenariopage{crop}{model}{rcp}{ssp}{year}
+% Example: \scenariopage{corn}{low}{rcp45}{SSP3}{2098}
+
+\newcommand{\scenariopage}[5]{%
+    \clearpage
+    \subsubsection*{#4 -- #3 -- #2 -- Year #5}
+    
+    % Row 1: Maps
+    \begin{figure}[H]
+        \centering
+        \begin{subfigure}[t]{0.32\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{#1/maps/raw_#2_#3_#4_#5.png}
+            \caption{Raw Total}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[t]{0.32\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{#1/maps/flex_#2_#3_#4_#5.png}
+            \caption{Flexible Damage}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[t]{0.32\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{#1/maps/diff_#2_#3_#4_#5.png}
+            \caption{Difference (Flex -- Raw)}
+        \end{subfigure}
+        \caption{#1: Scenario maps for #4, #3, #2 (#5)}
+        \label{fig:#1_#4_#3_#2_#5_maps}
+    \end{figure}
+    
+    % Row 2: Tables
+    \vspace{-2mm}
+    \noindent
+    \begin{minipage}[t]{0.32\textwidth}
+        \centering
+        \scriptsize
+        \textbf{Raw Total}\\[1mm]
+        \rawtable{#1/maps/raw_#2_#3_#4_#5_stats.csv}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.32\textwidth}
+        \centering
+        \scriptsize
+        \textbf{Flexible Damage}\\[1mm]
+        \flextable{#1/maps/flex_#2_#3_#4_#5_stats.csv}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.32\textwidth}
+        \centering
+        \scriptsize
+        \textbf{Difference}\\[1mm]
+        \difftable{#1/maps/diff_#2_#3_#4_#5_stats.csv}
+    \end{minipage}
+    
+    \vspace{2mm}
+    {\scriptsize\textit{Note: IR names truncated to 7 characters. Full names in source data.}}
+}
+
+% ============================================================
+% TABLE MACROS FOR SCENARIO PAGES
+% ============================================================
+
+% --- Raw Total Table ---
+% CSV columns: hierid, rawtotal, Category
+\newcommand{\rawtable}[1]{%
+    \begin{tabular}{@{}lS[table-format=-1.4,round-precision=4]l@{}}
+        \toprule
+        \textbf{IR} & {\textbf{Raw}} & \textbf{Cat} \\
+        \midrule
+        % Placeholder rows - uncomment csvreader when CSVs exist
+        % \csvreader[
+        %     head to column names,
+        %     separator=comma,
+        %     late after line=\\,
+        %     before reading=,
+        %     after reading=
+        % ]{#1}{hierid=\hid,rawtotal=\val,Category=\cat}{%
+        %     \trunc{\hid} & \val & \cat
+        % }
+        REG.1.2 & 0.0123 & Top10 \\
+        REG.2.3 & 0.0098 & Top10 \\
+        REG.3.4 & 0.0087 & Top10 \\
+        \midrule
+        REG.9.1 & -0.0234 & Bot10 \\
+        REG.8.2 & -0.0198 & Bot10 \\
+        \bottomrule
+    \end{tabular}
+}
+
+% --- Flexible Damage Table ---
+% CSV columns: hierid, flextotal, Category
+\newcommand{\flextable}[1]{%
+    \begin{tabular}{@{}lS[table-format=-1.4,round-precision=4]l@{}}
+        \toprule
+        \textbf{IR} & {\textbf{Flex}} & \textbf{Cat} \\
+        \midrule
+        % Placeholder rows
+        REG.1.2 & 0.0118 & Top10 \\
+        REG.2.3 & 0.0095 & Top10 \\
+        REG.3.4 & 0.0082 & Top10 \\
+        \midrule
+        REG.9.1 & -0.0245 & Bot10 \\
+        REG.8.2 & -0.0201 & Bot10 \\
+        \bottomrule
+    \end{tabular}
+}
+
+% --- Difference Table with Color Coding ---
+% CSV columns: hierid, sign_match, diff_magnitude, Category
+\newcommand{\difftable}[1]{%
+    \begin{tabular}{@{}llS[table-format=1.4,round-precision=4]@{}}
+        \toprule
+        \textbf{IR} & \textbf{Match} & {\textbf{|$\Delta$|}} \\
+        \midrule
+        % Placeholder rows with colors
+        \rowcolor{matchgreen} REG.1.2 & True & 0.0005 \\
+        \rowcolor{matchgreen} REG.2.3 & True & 0.0003 \\
+        \rowcolor{matchgreen} REG.3.4 & True & 0.0005 \\
+        \midrule
+        \rowcolor{mismatchred} REG.9.1 & False & 0.0089 \\
+        \rowcolor{mismatchred} REG.8.2 & False & 0.0076 \\
+        \bottomrule
+    \end{tabular}
+    
+    \vspace{1mm}
+    {\tiny Green = best agreement. Red = worst disagreement.\\
+    Magnitude = $|$Flex $-$ Raw$|$}
+}
+
+% ============================================================
+% SCENARIO PAGE WITH DYNAMIC CSV LOADING
+% ============================================================
+% Advanced version that reads from CSV files
+% Usage: \scenariopagecsv{crop}{model}{rcp}{ssp}{year}
+
+\newcommand{\scenariopagecsv}[5]{%
+    \clearpage
+    \subsubsection*{#4 -- #3 -- #2 -- Year #5}
+    
+    % Row 1: Maps
+    \begin{figure}[H]
+        \centering
+        \begin{subfigure}[t]{0.32\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{#1/maps/raw_#2_#3_#4_#5.png}
+            \caption{Raw Total}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[t]{0.32\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{#1/maps/flex_#2_#3_#4_#5.png}
+            \caption{Flexible Damage}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[t]{0.32\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{#1/maps/diff_#2_#3_#4_#5.png}
+            \caption{Difference}
+        \end{subfigure}
+        \caption{#1: #4, #3, #2 (#5)}
+        \label{fig:#1_#4_#3_#2_#5}
+    \end{figure}
+    
+    % Row 2: Tables from CSV
+    \vspace{-2mm}
+    \noindent
+    \begin{minipage}[t]{0.32\textwidth}
+        \centering
+        \scriptsize
+        \textbf{Raw Total}\\[1mm]
+        \csvreader[
+            head to column names,
+            separator=comma,
+            tabular=@{}lS[table-format=-1.4]l@{},
+            table head=\toprule \textbf{IR} & {\textbf{Raw}} & \textbf{Cat} \\ \midrule,
+            table foot=\bottomrule,
+            respect all
+        ]{#1/maps/raw_#2_#3_#4_#5_stats.csv}{hierid=\hid,rawtotal=\val,Category=\cat}{%
+            \trunc{\hid} & \val & \cat
+        }
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.32\textwidth}
+        \centering
+        \scriptsize
+        \textbf{Flexible Damage}\\[1mm]
+        \csvreader[
+            head to column names,
+            separator=comma,
+            tabular=@{}lS[table-format=-1.4]l@{},
+            table head=\toprule \textbf{IR} & {\textbf{Flex}} & \textbf{Cat} \\ \midrule,
+            table foot=\bottomrule,
+            respect all
+        ]{#1/maps/flex_#2_#3_#4_#5_stats.csv}{hierid=\hid,flextotal=\val,Category=\cat}{%
+            \trunc{\hid} & \val & \cat
+        }
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.32\textwidth}
+        \centering
+        \scriptsize
+        \textbf{Difference}\\[1mm]
+        % Note: Color coding requires manual handling or lua/python preprocessing
+        \csvreader[
+            head to column names,
+            separator=comma,
+            tabular=@{}llS[table-format=1.4]@{},
+            table head=\toprule \textbf{IR} & \textbf{Match} & {\textbf{|$\Delta$|}} \\ \midrule,
+            table foot=\bottomrule,
+            respect all
+        ]{#1/maps/diff_#2_#3_#4_#5_stats.csv}{hierid=\hid,sign_match=\match,diff_magnitude=\diff}{%
+            \trunc{\hid} & \match & \diff
+        }
+        
+        \vspace{1mm}
+        {\tiny Green = best agreement. Red = worst disagreement.}
+    \end{minipage}
+    
+    \vspace{2mm}
+    {\scriptsize\textit{Note: IR names truncated to 7 characters.}}
+}
+
+% ============================================================
+% ALL SCENARIOS FOR ONE CROP
+% ============================================================
+% Generates all 12 scenario combinations
+% Usage: \allscenarios{crop}{year}
+
+\newcommand{\allscenarios}[2]{%
+    % SSP2
+    \scenariopage{#1}{high}{rcp45}{SSP2}{#2}
+    \scenariopage{#1}{low}{rcp45}{SSP2}{#2}
+    \scenariopage{#1}{high}{rcp85}{SSP2}{#2}
+    \scenariopage{#1}{low}{rcp85}{SSP2}{#2}
+    % SSP3
+    \scenariopage{#1}{high}{rcp45}{SSP3}{#2}
+    \scenariopage{#1}{low}{rcp45}{SSP3}{#2}
+    \scenariopage{#1}{high}{rcp85}{SSP3}{#2}
+    \scenariopage{#1}{low}{rcp85}{SSP3}{#2}
+    % SSP4
+    \scenariopage{#1}{high}{rcp45}{SSP4}{#2}
+    \scenariopage{#1}{low}{rcp45}{SSP4}{#2}
+    \scenariopage{#1}{high}{rcp85}{SSP4}{#2}
+    \scenariopage{#1}{low}{rcp85}{SSP4}{#2}
+}
+
+% ============================================================
+% CROP SECTION TEMPLATE
+% ============================================================
+% Full section for a crop including summary, diagnostics, and scenarios
+% Usage: \cropsection{CropName}{folder}{year}
+
+\newcommand{\cropsection}[3]{%
+    \subsection{#1}
+    \label{sec:#2}
+    
+    \summaryplaceholder{#1}
+    
+    \clearpage
+    \diagnosticpanel{#1}{#2}
+    
+    \subsubsection*{Scenario-Based Results}
+    \allscenarios{#2}{#3}
+    
+    \clearpage
+}

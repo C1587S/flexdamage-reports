@@ -1,0 +1,313 @@
+% ============================================================
+% CORN: END-OF-CENTURY SCENARIO PROJECTIONS
+% ============================================================
+% This file displays scenario-based results for corn
+% Each page: one scenario (Year × SSP × RCP)
+% Layout: Large map at top, summary tables at bottom
+% ============================================================
+
+\subsubsection*{End-of-Century Projections}
+
+The following pages present projected agricultural damages under various climate and socioeconomic scenarios. Each scenario combines:
+\begin{itemize}
+    \item \textbf{Year}: 2100 (end-of-century)
+    \item \textbf{SSP}: Shared Socioeconomic Pathway (SSP2, SSP3, SSP4)
+    \item \textbf{RCP}: Representative Concentration Pathway (RCP 4.5, RCP 8.5)
+    \item \textbf{Variant}: High or Low damage estimate
+\end{itemize}
+
+% ============================================================
+% SSP2 SCENARIOS
+% ============================================================
+\clearpage
+\paragraph{SSP2 -- RCP 4.5 -- High (2100)}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{corn/maps/SSP2_rcp45_high_2100.png}
+    \caption{Corn: Projected damages under SSP2, RCP 4.5, High scenario (2100). Map shows regional distribution of estimated yield changes relative to baseline.}
+    \label{fig:corn_ssp2_rcp45_high_map}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}[t]{0.48\textwidth}
+        \centering
+        \footnotesize
+        \textbf{Top 10 Best Outcomes (Lowest Damages)}
+        
+        \vspace{3mm}
+        
+        % Option 1: Load from CSV (uncomment when CSV exists)
+        % \csvreader[
+        %     head to column names,
+        %     separator=comma,
+        %     tabular=@{}lS[table-format=-1.3]@{},
+        %     table head=\toprule \textbf{Region} & \textbf{$\Delta$ Yield} \\ \midrule,
+        %     table foot=\bottomrule
+        % ]{corn/maps/SSP2_rcp45_high_2100_best.csv}{}{\region & \value}
+        
+        % Option 2: Placeholder table (replace with CSV reader)
+        \begin{tabular}{@{}lS[table-format=-1.3]@{}}
+            \toprule
+            \textbf{Region} & {\textbf{$\Delta$ Yield}} \\
+            \midrule
+            NOR.5.12 & 0.045 \\
+            FIN.3.8 & 0.038 \\
+            SWE.12.4 & 0.032 \\
+            CAN.1.15 & 0.028 \\
+            RUS.45.12 & 0.025 \\
+            \bottomrule
+        \end{tabular}
+        
+        \vspace{2mm}
+        {\scriptsize\textit{Positive values indicate yield gains}}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.48\textwidth}
+        \centering
+        \footnotesize
+        \textbf{Top 10 Worst Outcomes (Highest Damages)}
+        
+        \vspace{3mm}
+        
+        % Placeholder table
+        \begin{tabular}{@{}lS[table-format=-1.3]@{}}
+            \toprule
+            \textbf{Region} & {\textbf{$\Delta$ Yield}} \\
+            \midrule
+            IND.28.45 & -0.185 \\
+            BRA.15.32 & -0.162 \\
+            NGA.12.8 & -0.148 \\
+            MEX.8.15 & -0.135 \\
+            THA.45.12 & -0.128 \\
+            \bottomrule
+        \end{tabular}
+        
+        \vspace{2mm}
+        {\scriptsize\textit{Negative values indicate yield losses}}
+    \end{minipage}
+    \caption{Corn: Regional extremes under SSP2, RCP 4.5, High scenario (2100)}
+    \label{fig:corn_ssp2_rcp45_high_table}
+\end{figure}
+
+% ------------------------------------------------------------
+\clearpage
+\paragraph{SSP2 -- RCP 4.5 -- Low (2100)}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{corn/maps/SSP2_rcp45_low_2100.png}
+    \caption{Corn: Projected damages under SSP2, RCP 4.5, Low scenario (2100)}
+    \label{fig:corn_ssp2_rcp45_low_map}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}[t]{0.48\textwidth}
+        \centering
+        \footnotesize
+        \textbf{Top 10 Best Outcomes}
+        \vspace{3mm}
+        
+        \begin{tabular}{@{}lS[table-format=-1.3]@{}}
+            \toprule
+            \textbf{Region} & {\textbf{$\Delta$ Yield}} \\
+            \midrule
+            \multicolumn{2}{c}{\textit{[Load from CSV]}} \\
+            \bottomrule
+        \end{tabular}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.48\textwidth}
+        \centering
+        \footnotesize
+        \textbf{Top 10 Worst Outcomes}
+        \vspace{3mm}
+        
+        \begin{tabular}{@{}lS[table-format=-1.3]@{}}
+            \toprule
+            \textbf{Region} & {\textbf{$\Delta$ Yield}} \\
+            \midrule
+            \multicolumn{2}{c}{\textit{[Load from CSV]}} \\
+            \bottomrule
+        \end{tabular}
+    \end{minipage}
+    \caption{Corn: Regional extremes under SSP2, RCP 4.5, Low scenario (2100)}
+    \label{fig:corn_ssp2_rcp45_low_table}
+\end{figure}
+
+% ------------------------------------------------------------
+\clearpage
+\paragraph{SSP2 -- RCP 8.5 -- High (2100)}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{corn/maps/SSP2_rcp85_high_2100.png}
+    \caption{Corn: Projected damages under SSP2, RCP 8.5, High scenario (2100)}
+    \label{fig:corn_ssp2_rcp85_high_map}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}[t]{0.48\textwidth}
+        \centering
+        \footnotesize
+        \textbf{Top 10 Best Outcomes}
+        \vspace{3mm}
+        
+        \begin{tabular}{@{}lS[table-format=-1.3]@{}}
+            \toprule
+            \textbf{Region} & {\textbf{$\Delta$ Yield}} \\
+            \midrule
+            \multicolumn{2}{c}{\textit{[Load from CSV]}} \\
+            \bottomrule
+        \end{tabular}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.48\textwidth}
+        \centering
+        \footnotesize
+        \textbf{Top 10 Worst Outcomes}
+        \vspace{3mm}
+        
+        \begin{tabular}{@{}lS[table-format=-1.3]@{}}
+            \toprule
+            \textbf{Region} & {\textbf{$\Delta$ Yield}} \\
+            \midrule
+            \multicolumn{2}{c}{\textit{[Load from CSV]}} \\
+            \bottomrule
+        \end{tabular}
+    \end{minipage}
+    \caption{Corn: Regional extremes under SSP2, RCP 8.5, High scenario (2100)}
+    \label{fig:corn_ssp2_rcp85_high_table}
+\end{figure}
+
+% ------------------------------------------------------------
+\clearpage
+\paragraph{SSP2 -- RCP 8.5 -- Low (2100)}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{corn/maps/SSP2_rcp85_low_2100.png}
+    \caption{Corn: Projected damages under SSP2, RCP 8.5, Low scenario (2100)}
+    \label{fig:corn_ssp2_rcp85_low_map}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}[t]{0.48\textwidth}
+        \centering
+        \footnotesize
+        \textbf{Top 10 Best Outcomes}
+        \vspace{3mm}
+        
+        \begin{tabular}{@{}lS[table-format=-1.3]@{}}
+            \toprule
+            \textbf{Region} & {\textbf{$\Delta$ Yield}} \\
+            \midrule
+            \multicolumn{2}{c}{\textit{[Load from CSV]}} \\
+            \bottomrule
+        \end{tabular}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.48\textwidth}
+        \centering
+        \footnotesize
+        \textbf{Top 10 Worst Outcomes}
+        \vspace{3mm}
+        
+        \begin{tabular}{@{}lS[table-format=-1.3]@{}}
+            \toprule
+            \textbf{Region} & {\textbf{$\Delta$ Yield}} \\
+            \midrule
+            \multicolumn{2}{c}{\textit{[Load from CSV]}} \\
+            \bottomrule
+        \end{tabular}
+    \end{minipage}
+    \caption{Corn: Regional extremes under SSP2, RCP 8.5, Low scenario (2100)}
+    \label{fig:corn_ssp2_rcp85_low_table}
+\end{figure}
+
+% ============================================================
+% SSP3 SCENARIOS
+% ============================================================
+\clearpage
+\paragraph{SSP3 -- RCP 4.5 -- High (2100)}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{corn/maps/SSP3_rcp45_high_2100.png}
+    \caption{Corn: Projected damages under SSP3, RCP 4.5, High scenario (2100)}
+    \label{fig:corn_ssp3_rcp45_high_map}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}[t]{0.48\textwidth}
+        \centering
+        \footnotesize
+        \textbf{Top 10 Best Outcomes}
+        \vspace{3mm}
+        \begin{tabular}{@{}lS[table-format=-1.3]@{}}
+            \toprule
+            \textbf{Region} & {\textbf{$\Delta$ Yield}} \\
+            \midrule
+            \multicolumn{2}{c}{\textit{[Load from CSV]}} \\
+            \bottomrule
+        \end{tabular}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.48\textwidth}
+        \centering
+        \footnotesize
+        \textbf{Top 10 Worst Outcomes}
+        \vspace{3mm}
+        \begin{tabular}{@{}lS[table-format=-1.3]@{}}
+            \toprule
+            \textbf{Region} & {\textbf{$\Delta$ Yield}} \\
+            \midrule
+            \multicolumn{2}{c}{\textit{[Load from CSV]}} \\
+            \bottomrule
+        \end{tabular}
+    \end{minipage}
+    \caption{Corn: Regional extremes under SSP3, RCP 4.5, High scenario (2100)}
+    \label{fig:corn_ssp3_rcp45_high_table}
+\end{figure}
+
+% ------------------------------------------------------------
+% Add remaining SSP3 and SSP4 scenarios following same pattern
+% SSP3-RCP45-Low, SSP3-RCP85-High, SSP3-RCP85-Low
+% SSP4-RCP45-High, SSP4-RCP45-Low, SSP4-RCP85-High, SSP4-RCP85-Low
+% ------------------------------------------------------------
+
+% ============================================================
+% THREE-COLUMN COMPARISON VIEW (Alternative Layout)
+% ============================================================
+% Uncomment this section for a condensed comparison view
+
+% \clearpage
+% \paragraph{SSP2 Scenario Comparison (2100)}
+% 
+% \begin{figure}[H]
+%     \centering
+%     \begin{subfigure}[t]{0.32\textwidth}
+%         \centering
+%         \includegraphics[width=\textwidth]{corn/maps/SSP2_rcp45_high_2100.png}
+%         \caption{RCP 4.5 High}
+%     \end{subfigure}
+%     \hfill
+%     \begin{subfigure}[t]{0.32\textwidth}
+%         \centering
+%         \includegraphics[width=\textwidth]{corn/maps/SSP2_rcp85_high_2100.png}
+%         \caption{RCP 8.5 High}
+%     \end{subfigure}
+%     \hfill
+%     \begin{subfigure}[t]{0.32\textwidth}
+%         \centering
+%         \includegraphics[width=\textwidth]{corn/maps/SSP2_comparison_2100.png}
+%         \caption{Difference (8.5 -- 4.5)}
+%     \end{subfigure}
+%     \caption{Corn: SSP2 scenario comparison showing RCP sensitivity (2100)}
+%     \label{fig:corn_ssp2_comparison}
+% \end{figure}

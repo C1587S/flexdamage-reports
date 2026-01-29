@@ -1,0 +1,137 @@
+% ============================================================
+% GENERAL SECTION: METHODOLOGY
+% ============================================================
+
+\section{Methodology}
+\label{sec:methodology}
+
+\begin{quote}
+\small\textit{Note: The content in this section is directly adapted from the original methodology document by James Rising:}\\[2mm]
+\url{https://www.dropbox.com/scl/fi/umty5onvqz1eh14u21be5/Flexible-Damage-Functions-alpha.paper}
+\end{quote}
+
+\vspace{3mm}
+
+This section describes the development of flexible damage functions from climate impact model output for use within integrated assessment models (IAMs). The approach avoids aggregation issues by supporting impact region (IR)-level physical damages, with all aggregation and monetization performed by the recipient IAMs.
+
+% ------------------------------------------------------------
+\subsection{Model Specifications}
+\label{sec:model_specs}
+
+The framework is designed to interface with sophisticated IAMs through a standardized component structure. The model accepts the following inputs:
+
+\paragraph{Parameters (Input Values)}
+\begin{itemize}
+    \item Climatological global mean temperature change from pre-industrial (°C) by year
+    \item GDP per capita (2020 USD, PPP) by impact region $\times$ year
+    \item Global seed for Monte Carlo draws from damage function uncertainty (0 for point estimate)
+    \item Optional: Annual seeds for variability draws conditional on GMST
+\end{itemize}
+
+\paragraph{Variables (Output Values)}
+\begin{itemize}
+    \item Change in outcome per capita relative to pre-industrial, by impact region $\times$ year
+\end{itemize}
+
+The regional hierarchy follows a tree structure with region identifiers defined as:
+\begin{itemize}
+    \item World: highest level region
+    \item C\ldots: continents
+    \item U\ldots: super-country regions defined by the UN
+    \item A\ldots: countries and sub-country administrative regions (GADM)
+    \item R\ldots: agglomerations defined as a hash of composite GADM IDs
+\end{itemize}
+
+% ------------------------------------------------------------
+\subsection{Functional Form Proposal}
+\label{sec:functional_form}
+
+The IR-level damage functions for the expected change relative to pre-industrial, $M_{it}$, take the form:
+
+\begin{equation}
+    M_{it} = \left( \alpha_i T_t + \beta_i T_t^2 \right) Y_{it}^{\gamma}
+    \label{eq:main_form}
+\end{equation}
+
+\noindent where:
+\begin{itemize}
+    \item $i$ indexes impact regions
+    \item $T_t$ is the climatological global mean temperature change from pre-industrial in year $t$
+    \item $Y_{it}$ is income (GDP per capita, year 2000 USD) for impact region $i$ in year $t$
+    \item $\alpha_i$ and $\beta_i$ are region-specific polynomial coefficients
+    \item $\gamma$ is a global income elasticity parameter
+\end{itemize}
+
+The functional form specifies that each region's relationship with GMST change is unique through region-specific $\alpha_i$ and $\beta_i$ parameters. Assuming $\gamma < 0$, each region's quadratic response decays toward zero with rising income. The global elasticity $\gamma$ is used across all regions to ensure consistency, based on experience with estimating region-specific elasticity parameters from high-resolution data.
+
+\paragraph{Uncertainty Characterization}
+
+For a given global Monte Carlo run $k$ and annual draw $\eta_{it}$, the predicted outcome change with full uncertainty is:
+
+\begin{equation}
+    M_{itk} = \left( \hat{\alpha}_{ik} T_t + \hat{\beta}_{ik} T_t^2 \right) Y_{it}^{\hat{\gamma}_k} + \hat{\theta}_{ik} T_t Y_{it}^{\hat{\gamma}_k} + \hat{\phi}_{kit}
+    \label{eq:full_uncertainty}
+\end{equation}
+
+\noindent where:
+\begin{itemize}
+    \item $\hat{\gamma}_k$ is drawn from a discrete set of provided values
+    \item $\hat{\alpha}_{ik}$ and $\hat{\beta}_{ik}$ are drawn from a multivariate normal distribution
+    \item $\hat{\theta}_{ik}$ is drawn from $\mathcal{N}(0, \zeta_{ik})$ representing run-specific uncertainty
+    \item $\hat{\phi}_{kit}$ is drawn from $\mathcal{N}(0, \eta_{ik})$ representing annual variability
+\end{itemize}
+
+Much of the uncertainty is driven by $\theta$, which captures systematic biases across Monte Carlo runs. We maintain covariance between regional $\theta_i$ values through a correlation with a global $\bar{\theta}$ parameter, characterized by known $\rho_i$ values.
+
+For computational convenience, income is transformed as:
+\begin{equation}
+    \tilde{Y}_{it} = \exp\left( \log(Y_{it}) - \mathbb{E}_{t \in 1980\text{--}1999}\left[ \log(Y_{it}) \right] \right)
+    \label{eq:income_transform}
+\end{equation}
+
+% ------------------------------------------------------------
+\subsection{Fitting the Damage Functions}
+\label{sec:fitting}
+
+The fitting procedure proceeds in multiple stages, designed to handle the computational challenges of fitting a nonlinear function to approximately 500 million data points while maintaining OLS-based estimation.
+
+\subsubsection{Stage 1: Data Extraction}
+
+Twenty-year averages are computed for:
+\begin{itemize}
+    \item GMST values by GCM $\times$ RCP combination
+    \item Log GDP per capita values by SSP $\times$ IAM combination
+    \item Outcome values (mean and standard deviation)
+\end{itemize}
+
+\noindent The periods used are: 1981--2000, 2001--2020, 2021--2040, 2041--2060, 2061--2080, and 2081--2099.
+
+\subsubsection{Stage 2: Global Elasticity Estimation}
+
+The global income elasticity $\gamma$ is estimated using pooled data across all impact regions. This stage identifies the rate at which climate damages decay with increasing income, providing a consistent scaling factor for the regional polynomial coefficients.
+
+\subsubsection{Stage 3: Regional Polynomial Estimation}
+
+For each impact region $i$, the coefficients $\alpha_i$ and $\beta_i$ are estimated via OLS on the income-adjusted outcomes:
+\begin{equation}
+    \frac{M_{it}}{Y_{it}^{\hat{\gamma}}} = \alpha_i T_t + \beta_i T_t^2 + \epsilon_{it}
+    \label{eq:regional_ols}
+\end{equation}
+
+\subsubsection{Stage 4: Error Term Characterization}
+
+The residual structure is decomposed into:
+\begin{enumerate}
+    \item \textbf{Run-specific uncertainty} ($\zeta_{ik}$): Captures systematic differences across Monte Carlo $\times$ GCM $\times$ RCP $\times$ SSP $\times$ IAM combinations
+    \item \textbf{Annual variability} ($\eta_{ik}$): Captures year-to-year fluctuations conditional on climatic means
+\end{enumerate}
+
+The run-specific error follows:
+\begin{equation}
+    \epsilon'_{it} Y_{it}^{\hat{\gamma}} = \zeta_{ik} T_t Y_{it}^{\hat{\gamma}} + \phi_{it}
+    \label{eq:error_decomp}
+\end{equation}
+
+\noindent where $\epsilon'_{it}$ represents residuals after accounting for parameter uncertainty.
+
+\clearpage
